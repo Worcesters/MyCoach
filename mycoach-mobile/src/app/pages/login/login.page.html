@@ -1,65 +1,57 @@
-<ion-content class="login-content">
+<div class="login-wrapper">
   <div class="login-container">
     <!-- Logo et titre -->
     <div class="header-section">
-      <ion-icon name="fitness" class="logo-icon"></ion-icon>
+      <div class="logo-icon">💪</div>
       <h1>MyCoach</h1>
       <p>Votre coach sportif intelligent</p>
     </div>
 
     <!-- Formulaire de connexion -->
     <div class="form-section">
-      <ion-item>
-        <ion-label position="floating">Email</ion-label>
-        <ion-input
+      <div class="input-group">
+        <label for="email">Email</label>
+        <input
+          id="email"
           type="email"
           [(ngModel)]="email"
           placeholder="votre@email.com"
           autocomplete="email"
           (keypress)="onKeyPress($event)"
-          [disabled]="isLoading">
-        </ion-input>
-      </ion-item>
+          [disabled]="isLoading"
+          class="form-input">
+      </div>
 
-      <ion-item>
-        <ion-label position="floating">Mot de passe</ion-label>
-        <ion-input
+      <div class="input-group">
+        <label for="password">Mot de passe</label>
+        <input
+          id="password"
           type="password"
           [(ngModel)]="password"
           placeholder="••••••••"
           autocomplete="current-password"
           (keypress)="onKeyPress($event)"
-          [disabled]="isLoading">
-        </ion-input>
-      </ion-item>
+          [disabled]="isLoading"
+          class="form-input">
+      </div>
 
-      <ion-button
-        expand="block"
+      <button
         (click)="login()"
         class="login-button"
         [disabled]="isLoading || !email || !password">
-        <ion-icon
-          name="log-in"
-          slot="start"
-          *ngIf="!isLoading">
-        </ion-icon>
-        <ion-spinner
-          name="crescent"
-          slot="start"
-          *ngIf="isLoading">
-        </ion-spinner>
-        {{ isLoading ? 'Connexion...' : 'Se connecter' }}
-      </ion-button>
+        <span *ngIf="!isLoading">🔑 Se connecter</span>
+        <span *ngIf="isLoading">⏳ Connexion...</span>
+      </button>
 
       <div class="register-section">
         <p>Pas encore de compte ?</p>
-        <ion-button
-          fill="clear"
+        <button
+          class="register-link"
           (click)="goToRegister()"
           [disabled]="isLoading">
           Créer un compte
-        </ion-button>
+        </button>
       </div>
     </div>
   </div>
-</ion-content>
+</div>

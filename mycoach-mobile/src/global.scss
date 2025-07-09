@@ -200,6 +200,278 @@ ion-item.item-has-focus {
   border-radius: 2px;
 }
 
+// ============================================
+// COMPATIBILITÉ MOBILE ANDROID 100%
+// ============================================
+
+// Variables CSS mobile optimisées
+:root {
+  --mobile-input-height-android: 56px;
+  --mobile-button-height-android: 48px;
+  --mobile-spacing-android: 16px;
+  --mobile-border-android: 2px solid #e0e0e0;
+  --mobile-border-focus-android: 2px solid #667eea;
+  --mobile-radius-android: 12px;
+  --mobile-shadow-android: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+// RESET COMPLET POUR ANDROID
+* {
+  box-sizing: border-box !important;
+  -webkit-tap-highlight-color: transparent !important;
+}
+
+// BASE POUR COMPATIBILITÉ ANDROID
+html, body {
+  height: 100% !important;
+  overflow-x: hidden !important;
+  -webkit-text-size-adjust: none !important;
+  text-size-adjust: none !important;
+}
+
+// ION-ITEM - FIX TOTAL ANDROID
+ion-item {
+  // Override complet pour éviter les conflits
+  --background: transparent !important;
+  --border-width: 0 !important;
+  --border-color: transparent !important;
+  --inner-border-width: 0 !important;
+  --highlight-color-focused: #667eea !important;
+
+  // Taille fixe Android
+  --min-height: var(--mobile-input-height-android) !important;
+  --padding-start: var(--mobile-spacing-android) !important;
+  --padding-end: var(--mobile-spacing-android) !important;
+  --padding-top: 12px !important;
+  --padding-bottom: 12px !important;
+
+  // Positionnement anti-chevauchement
+  position: relative !important;
+  display: block !important;
+  width: 100% !important;
+  margin-bottom: var(--mobile-spacing-android) !important;
+  border: var(--mobile-border-android) !important;
+  border-radius: var(--mobile-radius-android) !important;
+  z-index: 1 !important;
+  clear: both !important;
+
+  // Transition fluide
+  transition: all 0.2s ease-in-out !important;
+
+  // État focus
+  &.item-has-focus,
+  &.item-has-value,
+  &:focus-within {
+    border: var(--mobile-border-focus-android) !important;
+    box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1) !important;
+    transform: translateY(-1px) !important;
+  }
+
+  // Labels optimisés Android
+  ion-label {
+    --color: #666 !important;
+    font-weight: 500 !important;
+    font-size: 14px !important;
+    line-height: 1.4 !important;
+    margin-bottom: 4px !important;
+
+    &.label-floating {
+      font-size: 12px !important;
+      --color: #667eea !important;
+    }
+  }
+
+  // Inputs Android spécifiques
+  ion-input {
+    --color: #333 !important;
+    --placeholder-color: #999 !important;
+    font-size: 16px !important;
+    line-height: 1.4 !important;
+
+    // Fix critiques Android
+    input {
+      font-size: 16px !important;
+      -webkit-appearance: none !important;
+      appearance: none !important;
+      border: none !important;
+      outline: none !important;
+      background: transparent !important;
+      width: 100% !important;
+      height: auto !important;
+      padding: 4px 0 !important;
+      text-rendering: optimizeLegibility !important;
+      -webkit-font-smoothing: antialiased !important;
+      line-height: 1.4 !important;
+    }
+  }
+
+  // Textarea Android
+  ion-textarea {
+    --color: #333 !important;
+    --placeholder-color: #999 !important;
+    font-size: 16px !important;
+
+    textarea {
+      font-size: 16px !important;
+      -webkit-appearance: none !important;
+      appearance: none !important;
+      resize: none !important;
+      line-height: 1.4 !important;
+    }
+  }
+}
+
+// BUTTONS ANDROID OPTIMISÉS
+ion-button {
+  --border-radius: var(--mobile-radius-android) !important;
+  --box-shadow: var(--mobile-shadow-android) !important;
+  height: var(--mobile-button-height-android) !important;
+  font-size: 16px !important;
+  font-weight: 600 !important;
+  margin: var(--mobile-spacing-android) 0 !important;
+
+  &.button-fill-solid {
+    --background: linear-gradient(135deg, #667eea 0%, #764ba2 100%) !important;
+    --color: white !important;
+
+    &:hover:not(.button-disabled) {
+      --background: linear-gradient(135deg, #5a6fd8 0%, #6a4190 100%) !important;
+      transform: translateY(-1px) !important;
+    }
+  }
+}
+
+// CONTENEURS MOBILES ANDROID - Classes utilitaires
+.android-container,
+.login-container,
+.register-container {
+  display: flex !important;
+  flex-direction: column !important;
+  justify-content: center !important;
+  min-height: 100vh !important;
+  padding: var(--mobile-spacing-android) !important;
+  overflow-x: hidden !important;
+}
+
+.android-form,
+.form-section {
+  background: white !important;
+  border-radius: 20px !important;
+  padding: 30px var(--mobile-spacing-android) !important;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2) !important;
+  width: 100% !important;
+  max-width: 100% !important;
+
+  // Anti-débordement
+  * {
+    max-width: 100% !important;
+    word-wrap: break-word !important;
+    overflow-wrap: break-word !important;
+  }
+}
+
+// MEDIA QUERIES ANDROID SPÉCIFIQUES
+@media screen and (max-width: 480px) {
+  ion-item {
+    --min-height: 52px !important;
+    --padding-start: 14px !important;
+    --padding-end: 14px !important;
+    margin-bottom: 16px !important;
+
+    ion-input input {
+      font-size: 15px !important;
+    }
+  }
+
+  ion-button {
+    height: 46px !important;
+    font-size: 15px !important;
+  }
+
+  .android-container {
+    padding: 16px !important;
+  }
+
+  .android-form {
+    padding: 24px 16px !important;
+    border-radius: 16px !important;
+  }
+}
+
+@media screen and (max-width: 360px) {
+  ion-item {
+    --min-height: 48px !important;
+    --padding-start: 12px !important;
+    --padding-end: 12px !important;
+    margin-bottom: 14px !important;
+
+    ion-input input {
+      font-size: 14px !important;
+    }
+  }
+
+  ion-button {
+    height: 44px !important;
+    font-size: 14px !important;
+  }
+
+  .android-container {
+    padding: 12px !important;
+  }
+
+  .android-form {
+    padding: 20px 12px !important;
+  }
+}
+
+// FIX SPÉCIFIQUE ANDROID WEBVIEW
+@media screen and (-webkit-device-pixel-ratio: 2.75) {
+  // Pixel 8 et appareils similaires
+  ion-item {
+    --min-height: 58px !important;
+    margin-bottom: 18px !important;
+
+    ion-input input {
+      font-size: 16px !important;
+      line-height: 1.3 !important;
+    }
+  }
+}
+
+// FIX POUR EMPÊCHER LE ZOOM SUR ANDROID
+input[type="text"],
+input[type="email"],
+input[type="password"],
+input[type="number"],
+textarea {
+  font-size: 16px !important;
+  -webkit-appearance: none !important;
+  appearance: none !important;
+  transform: translateZ(0) !important;
+}
+
+// PERFORMANCE ANDROID
+ion-item,
+ion-button {
+  transform: translateZ(0) !important;
+  -webkit-transform: translateZ(0) !important;
+  will-change: transform !important;
+  backface-visibility: hidden !important;
+  -webkit-backface-visibility: hidden !important;
+}
+
+// SCROLLING OPTIMISÉ ANDROID
+html {
+  scroll-behavior: smooth !important;
+  -webkit-overflow-scrolling: touch !important;
+}
+
+// SÉLECTION DE TEXTE ANDROID
+::selection {
+  background-color: rgba(102, 126, 234, 0.2) !important;
+  color: #333 !important;
+}
+
 // Classes utilitaires pour l'alignement mobile
 .mobile-center {
   text-align: center;

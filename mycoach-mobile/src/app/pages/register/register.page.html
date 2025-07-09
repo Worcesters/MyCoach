@@ -1,97 +1,101 @@
-<ion-content class="register-content">
-  <div class="register-container">
-    <!-- Logo et titre -->
-    <div class="header-section">
-      <ion-icon name="fitness" class="logo-icon"></ion-icon>
-      <h1>Créer un compte</h1>
-      <p>Rejoignez MyCoach aujourd'hui</p>
-    </div>
+<ion-content [fullscreen]="true" [scrollPadding]="true">
+  <div class="register-wrapper">
+    <div class="register-container">
 
-    <!-- Formulaire d'inscription -->
-    <div class="form-section">
-      <ion-item>
-        <ion-label position="floating">Prénom</ion-label>
-        <ion-input
-          type="text"
-          [(ngModel)]="firstName"
-          placeholder="Votre prénom"
-          autocomplete="given-name"
-          [disabled]="isLoading">
-        </ion-input>
-      </ion-item>
-
-      <ion-item>
-        <ion-label position="floating">Nom</ion-label>
-        <ion-input
-          type="text"
-          [(ngModel)]="lastName"
-          placeholder="Votre nom"
-          autocomplete="family-name"
-          [disabled]="isLoading">
-        </ion-input>
-      </ion-item>
-
-      <ion-item>
-        <ion-label position="floating">Email</ion-label>
-        <ion-input
-          type="email"
-          [(ngModel)]="email"
-          placeholder="votre@email.com"
-          autocomplete="email"
-          [disabled]="isLoading">
-        </ion-input>
-      </ion-item>
-
-      <ion-item>
-        <ion-label position="floating">Mot de passe</ion-label>
-        <ion-input
-          type="password"
-          [(ngModel)]="password"
-          placeholder="••••••••"
-          autocomplete="new-password"
-          [disabled]="isLoading">
-        </ion-input>
-      </ion-item>
-
-      <ion-item>
-        <ion-label position="floating">Confirmer le mot de passe</ion-label>
-        <ion-input
-          type="password"
-          [(ngModel)]="confirmPassword"
-          placeholder="••••••••"
-          autocomplete="new-password"
-          (keypress)="onKeyPress($event)"
-          [disabled]="isLoading">
-        </ion-input>
-      </ion-item>
-
-      <ion-button
-        expand="block"
-        (click)="register()"
-        class="register-button"
-        [disabled]="isLoading || !isFormValid()">
-        <ion-icon
-          name="person-add"
-          slot="start"
-          *ngIf="!isLoading">
-        </ion-icon>
-        <ion-spinner
-          name="crescent"
-          slot="start"
-          *ngIf="isLoading">
-        </ion-spinner>
-        {{ isLoading ? 'Création...' : 'Créer mon compte' }}
-      </ion-button>
-
-      <div class="login-section">
-        <p>Déjà un compte ?</p>
-        <ion-button
-          fill="clear"
-          (click)="goToLogin()"
-          [disabled]="isLoading">
-          Se connecter
-        </ion-button>
+      <!-- Logo et titre -->
+      <div class="header-section">
+        <div class="logo-icon">💪</div>
+        <h1>Créer un compte</h1>
+        <p>Rejoignez MyCoach aujourd'hui</p>
       </div>
+
+      <!-- Formulaire -->
+      <form class="form-section" (keydown.enter)="onKeyPress($event)">
+        <div class="input-group">
+          <label for="firstName">Prénom</label>
+          <input
+            id="firstName"
+            type="text"
+            [(ngModel)]="firstName"
+            name="firstName"
+            placeholder="Votre prénom"
+            [disabled]="isLoading"
+            class="form-input"
+            autocomplete="given-name">
+        </div>
+
+        <div class="input-group">
+          <label for="lastName">Nom</label>
+          <input
+            id="lastName"
+            type="text"
+            [(ngModel)]="lastName"
+            name="lastName"
+            placeholder="Votre nom"
+            [disabled]="isLoading"
+            class="form-input"
+            autocomplete="family-name">
+        </div>
+
+        <div class="input-group">
+          <label for="email">Email</label>
+          <input
+            id="email"
+            type="email"
+            [(ngModel)]="email"
+            name="email"
+            placeholder="votre@email.com"
+            [disabled]="isLoading"
+            class="form-input"
+            autocomplete="email">
+        </div>
+
+        <div class="input-group">
+          <label for="password">Mot de passe</label>
+          <input
+            id="password"
+            type="password"
+            [(ngModel)]="password"
+            name="password"
+            placeholder="••••••••"
+            [disabled]="isLoading"
+            class="form-input"
+            autocomplete="new-password">
+        </div>
+
+        <div class="input-group">
+          <label for="confirmPassword">Confirmer le mot de passe</label>
+          <input
+            id="confirmPassword"
+            type="password"
+            [(ngModel)]="confirmPassword"
+            name="confirmPassword"
+            placeholder="••••••••"
+            [disabled]="isLoading"
+            class="form-input"
+            autocomplete="new-password">
+        </div>
+
+        <button
+          type="button"
+          (click)="register()"
+          class="register-button"
+          [disabled]="isLoading || !isFormValid()">
+          <span *ngIf="!isLoading">✅ Créer mon compte</span>
+          <span *ngIf="isLoading">⏳ Création...</span>
+        </button>
+
+        <div class="login-section">
+          <p>Déjà un compte ?</p>
+          <button
+            type="button"
+            class="login-link"
+            (click)="goToLogin()"
+            [disabled]="isLoading">
+            Se connecter
+          </button>
+        </div>
+      </form>
     </div>
   </div>
 </ion-content>

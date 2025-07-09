@@ -1,7 +1,6 @@
 import { Injectable } from '@angular/core';
 import { CanActivate, Router } from '@angular/router';
 import { AuthService } from '../services/auth.service';
-import { Observable, map, take } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
@@ -13,17 +12,18 @@ export class AuthGuard implements CanActivate {
     private router: Router
   ) {}
 
-  canActivate(): Observable<boolean> {
-    return this.authService.currentUser$.pipe(
-      take(1),
-      map(user => {
-        if (user) {
-          return true;
-        } else {
-          this.router.navigate(['/login']);
-          return false;
-        }
-      })
-    );
+  canActivate(): boolean {
+    const isAuthenticated = this.authService.isAuthenticated();
+    console.log('🛡️ AuthGuard - Token présent:', isAuthenticated);
+
+    if (isAuthenticated) {
+      // Initialiser le profil si pas encore fait
+      this.authService.initializeUserProfile();
+      return true;
+    } else {
+      console.log('❌ Pas de token, redirection vers login');
+      this.router.navigate(['/login']);
+      return false;
+    }
   }
 }
