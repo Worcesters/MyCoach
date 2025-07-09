@@ -175,11 +175,24 @@ SIMPLE_JWT = {
     'SLIDING_TOKEN_REFRESH_LIFETIME': timedelta(days=1),
 }
 
-# CORS settings
+# CORS settings pour production
 CORS_ALLOWED_ORIGINS = [
     "http://localhost:3000",
     "http://127.0.0.1:3000",
 ]
+
+# En production, Railway génère automatiquement un domaine HTTPS
+if not DEBUG:
+    ALLOWED_HOSTS.append('.railway.app')
+    # CORS pour l'application mobile
+    CORS_ALLOWED_ORIGINS.extend([
+        "https://mycoach-backend.railway.app",
+        "capacitor://localhost",
+        "ionic://localhost",
+        "http://localhost",
+        "http://localhost:8080",
+        "http://localhost:8100"
+    ])
 
 CORS_ALLOW_ALL_ORIGINS = DEBUG
 

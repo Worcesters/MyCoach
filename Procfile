@@ -1,0 +1,1 @@
+web: gunicorn mycoach.wsgi:application
