@@ -54,6 +54,11 @@ wait_for_redis() {
 
 # Fonction pour exécuter les migrations
 run_migrations() {
+    if [ "$SKIP_MIGRATIONS" = "true" ]; then
+        echo "⏭️ Migrations ignorées (SKIP_MIGRATIONS=true)"
+        return 0
+    fi
+
     echo "🔄 Exécution des migrations Django..."
     python manage.py makemigrations --noinput
     python manage.py migrate --noinput

@@ -62,7 +62,7 @@ class MachineRatingInline(admin.TabularInline):
 class MachineAdmin(admin.ModelAdmin):
     list_display = [
         'name', 'machine_type', 'difficulty_level', 'is_available_display',
-        'popularity_score', 'get_weight_range_display'
+        'is_active', 'is_maintenance', 'popularity_score', 'get_weight_range_display'
     ]
     list_filter = [
         'machine_type', 'difficulty_level', 'is_active', 'is_maintenance',

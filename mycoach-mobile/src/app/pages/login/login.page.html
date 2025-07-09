@@ -15,7 +15,9 @@
           type="email"
           [(ngModel)]="email"
           placeholder="votre@email.com"
-          autocomplete="email">
+          autocomplete="email"
+          (keypress)="onKeyPress($event)"
+          [disabled]="isLoading">
         </ion-input>
       </ion-item>
 
@@ -25,23 +27,36 @@
           type="password"
           [(ngModel)]="password"
           placeholder="••••••••"
-          autocomplete="current-password">
+          autocomplete="current-password"
+          (keypress)="onKeyPress($event)"
+          [disabled]="isLoading">
         </ion-input>
       </ion-item>
 
       <ion-button
         expand="block"
         (click)="login()"
-        class="login-button">
-        <ion-icon name="log-in" slot="start"></ion-icon>
-        Se connecter
+        class="login-button"
+        [disabled]="isLoading || !email || !password">
+        <ion-icon
+          name="log-in"
+          slot="start"
+          *ngIf="!isLoading">
+        </ion-icon>
+        <ion-spinner
+          name="crescent"
+          slot="start"
+          *ngIf="isLoading">
+        </ion-spinner>
+        {{ isLoading ? 'Connexion...' : 'Se connecter' }}
       </ion-button>
 
       <div class="register-section">
         <p>Pas encore de compte ?</p>
         <ion-button
           fill="clear"
-          (click)="goToRegister()">
+          (click)="goToRegister()"
+          [disabled]="isLoading">
           Créer un compte
         </ion-button>
       </div>

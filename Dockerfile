@@ -5,6 +5,7 @@ FROM python:3.11-slim
 ENV PYTHONDONTWRITEBYTECODE=1
 ENV PYTHONUNBUFFERED=1
 ENV DJANGO_SETTINGS_MODULE=mycoach.settings
+ENV DJANGO_COLLECTSTATIC=True
 
 # Créer et définir le répertoire de travail
 WORKDIR /app
@@ -33,8 +34,8 @@ COPY . .
 # Créer les dossiers nécessaires
 RUN mkdir -p /app/staticfiles /app/media
 
-# Collecter les fichiers statiques
-RUN python manage.py collectstatic --noinput
+# Collecter les fichiers statiques avec gestion d'erreur améliorée
+RUN python manage.py collectstatic --noinput --clear --verbosity=2
 
 # Exposer le port 8000
 EXPOSE 8000

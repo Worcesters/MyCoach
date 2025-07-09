@@ -117,8 +117,13 @@ USE_TZ = True
 STATIC_URL = '/static/'
 STATIC_ROOT = BASE_DIR / 'staticfiles'
 
-# Whitenoise configuration
-STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
+# Whitenoise configuration - utiliser un storage simple pendant le build
+if config('DJANGO_COLLECTSTATIC', default=False, cast=bool):
+    # Pendant collectstatic en mode build, utiliser le storage simple
+    STATICFILES_STORAGE = 'whitenoise.storage.StaticFilesStorage'
+else:
+    # En production, utiliser le storage compressé avec manifest
+    STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
 
 # Media files
 MEDIA_URL = '/media/'
