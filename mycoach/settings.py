@@ -56,6 +56,7 @@ MIDDLEWARE = [
     'whitenoise.middleware.WhiteNoiseMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
+    'mycoach.middleware.DisableCSRFMiddleware',  # Notre middleware pour désactiver CSRF sur les API
     'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
@@ -202,6 +203,17 @@ if not DEBUG:
     ])
 
 CORS_ALLOW_ALL_ORIGINS = DEBUG
+
+# CSRF settings pour API REST
+CSRF_TRUSTED_ORIGINS = [
+    "https://mycoach-production-238a.up.railway.app",
+    "http://localhost:8100",
+    "http://localhost:3000",
+]
+
+# Désactiver CSRF pour les vues API DRF (recommandé pour JWT)
+CSRF_USE_SESSIONS = False
+CSRF_COOKIE_HTTPONLY = False
 
 # Custom user model
 AUTH_USER_MODEL = 'users.User'

@@ -5,6 +5,8 @@ from rest_framework.response import Response
 from django.contrib.auth import get_user_model
 from rest_framework import serializers
 from django.db import transaction
+from django.views.decorators.csrf import csrf_exempt
+from django.utils.decorators import method_decorator
 
 User = get_user_model()
 
@@ -36,6 +38,7 @@ class UserProfileSerializer(serializers.ModelSerializer):
         fields = ('id', 'email', 'first_name', 'last_name', 'date_joined')
         read_only_fields = ('id', 'email', 'date_joined')
 
+@csrf_exempt
 @api_view(['POST'])
 @permission_classes([AllowAny])
 def register_view(request):
@@ -68,6 +71,7 @@ def register_view(request):
         'details': serializer.errors
     }, status=status.HTTP_400_BAD_REQUEST)
 
+@csrf_exempt
 @api_view(['GET', 'PUT'])
 @permission_classes([IsAuthenticated])
 def profile_view(request):
