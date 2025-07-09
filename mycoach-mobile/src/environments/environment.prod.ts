@@ -1,4 +1,4 @@
 export const environment = {
   production: true,
-  apiUrl: 'https://mycoach-backend.railway.app/api'
+  apiUrl: 'https://mycoach-production-238a.up.railway.app/api'
 };
