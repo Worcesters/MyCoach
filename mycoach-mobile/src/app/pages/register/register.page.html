@@ -1,0 +1,97 @@
+<ion-content class="register-content">
+  <div class="register-container">
+    <!-- Logo et titre -->
+    <div class="header-section">
+      <ion-icon name="fitness" class="logo-icon"></ion-icon>
+      <h1>Créer un compte</h1>
+      <p>Rejoignez MyCoach aujourd'hui</p>
+    </div>
+
+    <!-- Formulaire d'inscription -->
+    <div class="form-section">
+      <ion-item>
+        <ion-label position="floating">Prénom</ion-label>
+        <ion-input
+          type="text"
+          [(ngModel)]="firstName"
+          placeholder="Votre prénom"
+          autocomplete="given-name"
+          [disabled]="isLoading">
+        </ion-input>
+      </ion-item>
+
+      <ion-item>
+        <ion-label position="floating">Nom</ion-label>
+        <ion-input
+          type="text"
+          [(ngModel)]="lastName"
+          placeholder="Votre nom"
+          autocomplete="family-name"
+          [disabled]="isLoading">
+        </ion-input>
+      </ion-item>
+
+      <ion-item>
+        <ion-label position="floating">Email</ion-label>
+        <ion-input
+          type="email"
+          [(ngModel)]="email"
+          placeholder="votre@email.com"
+          autocomplete="email"
+          [disabled]="isLoading">
+        </ion-input>
+      </ion-item>
+
+      <ion-item>
+        <ion-label position="floating">Mot de passe</ion-label>
+        <ion-input
+          type="password"
+          [(ngModel)]="password"
+          placeholder="••••••••"
+          autocomplete="new-password"
+          [disabled]="isLoading">
+        </ion-input>
+      </ion-item>
+
+      <ion-item>
+        <ion-label position="floating">Confirmer le mot de passe</ion-label>
+        <ion-input
+          type="password"
+          [(ngModel)]="confirmPassword"
+          placeholder="••••••••"
+          autocomplete="new-password"
+          (keypress)="onKeyPress($event)"
+          [disabled]="isLoading">
+        </ion-input>
+      </ion-item>
+
+      <ion-button
+        expand="block"
+        (click)="register()"
+        class="register-button"
+        [disabled]="isLoading || !isFormValid()">
+        <ion-icon
+          name="person-add"
+          slot="start"
+          *ngIf="!isLoading">
+        </ion-icon>
+        <ion-spinner
+          name="crescent"
+          slot="start"
+          *ngIf="isLoading">
+        </ion-spinner>
+        {{ isLoading ? 'Création...' : 'Créer mon compte' }}
+      </ion-button>
+
+      <div class="login-section">
+        <p>Déjà un compte ?</p>
+        <ion-button
+          fill="clear"
+          (click)="goToLogin()"
+          [disabled]="isLoading">
+          Se connecter
+        </ion-button>
+      </div>
+    </div>
+  </div>
+</ion-content>

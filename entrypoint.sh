@@ -105,13 +105,28 @@ create_superuser() {
 
         python manage.py shell -c "
 from apps.users.models import User
-User.objects.create_superuser(
-    email='$ADMIN_EMAIL',
-    password='$ADMIN_PASSWORD',
-    first_name='$ADMIN_FIRST_NAME',
-    last_name='$ADMIN_LAST_NAME'
-)
-print('✅ Superuser créé: $ADMIN_EMAIL')
+try:
+    user = User.objects.create_superuser(
+        email='$ADMIN_EMAIL',
+        password='$ADMIN_PASSWORD',
+        first_name='$ADMIN_FIRST_NAME',
+        last_name='$ADMIN_LAST_NAME'
+    )
+    print('✅ Superuser créé: $ADMIN_EMAIL')
+except Exception as e:
+    print(f'⚠️ Erreur création superuser: {e}')
+    # Méthode alternative
+    user = User(
+        email='$ADMIN_EMAIL',
+        first_name='$ADMIN_FIRST_NAME',
+        last_name='$ADMIN_LAST_NAME',
+        is_staff=True,
+        is_superuser=True,
+        is_active=True
+    )
+    user.set_password('$ADMIN_PASSWORD')
+    user.save()
+    print('✅ Superuser créé (méthode alternative): $ADMIN_EMAIL')
 "
     else
         echo "👤 Un superuser existe déjà."

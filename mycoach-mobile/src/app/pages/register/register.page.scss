@@ -1,0 +1,126 @@
+.register-content {
+  --background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  --padding-start: 0;
+  --padding-end: 0;
+  --padding-top: 0;
+  --padding-bottom: 0;
+}
+
+.register-container {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  min-height: 100vh;
+  padding: 20px;
+}
+
+.header-section {
+  text-align: center;
+  margin-bottom: 40px;
+
+  .logo-icon {
+    font-size: 80px;
+    color: white;
+    margin-bottom: 20px;
+    display: block;
+  }
+
+  h1 {
+    color: white;
+    font-size: 32px;
+    font-weight: bold;
+    margin: 0 0 10px 0;
+  }
+
+  p {
+    color: rgba(255, 255, 255, 0.8);
+    font-size: 16px;
+    margin: 0;
+  }
+}
+
+.form-section {
+  background: white;
+  border-radius: 20px;
+  padding: 30px 20px;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+
+  ion-item {
+    --background: transparent;
+    --border-width: 0;
+    --border-color: transparent;
+    --inner-border-width: 0;
+    --highlight-color-focused: #667eea;
+    margin-bottom: 16px;
+    border: 1px solid #e0e0e0;
+    border-radius: 12px;
+    --padding-start: 16px;
+    --padding-end: 16px;
+
+    &.item-has-focus {
+      border-color: #667eea;
+      box-shadow: 0 0 0 2px rgba(102, 126, 234, 0.2);
+    }
+
+    ion-label {
+      --color: #666;
+      font-weight: 500;
+    }
+
+    ion-input {
+      --color: #333;
+      --placeholder-color: #999;
+      font-size: 16px;
+    }
+  }
+
+  .register-button {
+    margin: 30px 0 20px 0;
+    height: 50px;
+    font-size: 16px;
+    font-weight: bold;
+    --background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    --border-radius: 12px;
+    --box-shadow: 0 4px 12px rgba(102, 126, 234, 0.3);
+
+    &:hover {
+      --background: linear-gradient(135deg, #5a6fd8 0%, #6a4190 100%);
+    }
+  }
+
+  .login-section {
+    text-align: center;
+    margin-top: 20px;
+
+    p {
+      color: #666;
+      margin: 0 0 10px 0;
+      font-size: 14px;
+    }
+
+    ion-button {
+      --color: #667eea;
+      font-weight: 600;
+      font-size: 15px;
+    }
+  }
+}
+
+// Responsive design
+@media (max-width: 480px) {
+  .register-container {
+    padding: 16px;
+  }
+
+  .form-section {
+    padding: 24px 16px;
+  }
+
+  .header-section .logo-icon {
+    font-size: 64px;
+  }
+
+  .header-section h1 {
+    font-size: 28px;
+  }
+}
