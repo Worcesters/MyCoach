@@ -38,9 +38,21 @@ export class AuthService {
     if (token) {
       console.log('✅ Token chargé depuis localStorage:', token.substring(0, 20) + '...');
       this.tokenSubject.next(token);
-      this.loadUserProfile();
+      // Ne pas charger le profil immédiatement pour éviter les problèmes de timing
+      // this.loadUserProfile();
     } else {
       console.log('❌ Aucun token trouvé dans localStorage');
+    }
+  }
+
+  /**
+   * Initialise le profil utilisateur si un token est disponible
+   */
+  initializeUserProfile(): void {
+    const token = this.getToken();
+    if (token && !this.currentUserSubject.value) {
+      console.log('🔄 Initialisation du profil utilisateur...');
+      this.loadUserProfile();
     }
   }
 
@@ -87,17 +99,39 @@ export class AuthService {
   }
 
   private loadUserProfile(): void {
+    console.log('📡 Chargement du profil utilisateur...');
     this.http.get<User>(`${environment.apiUrl}/users/profile/`).subscribe({
-      next: (user) => this.currentUserSubject.next(user),
+      next: (user) => {
+        console.log('✅ Profil utilisateur chargé:', user.email);
+        this.currentUserSubject.next(user);
+      },
       error: (error) => {
-        console.error('Erreur chargement profil:', error);
-        this.logout();
+        console.error('❌ Erreur chargement profil:', error);
+
+        // Ne déconnecter que si c'est une erreur d'authentification (401)
+        if (error.status === 401) {
+          console.log('🔒 Token invalide, déconnexion...');
+          this.logout();
+        } else {
+          console.log('⚠️ Erreur temporaire, conservation du token');
+          // Pour les autres erreurs (réseau, 500, etc.), on garde le token
+        }
       }
     });
   }
 
   getToken(): string | null {
-    const token = this.tokenSubject.value;
+    let token = this.tokenSubject.value;
+
+    // Si le BehaviorSubject n'a pas de token, vérifier localStorage
+    if (!token) {
+      token = localStorage.getItem('access_token');
+      if (token) {
+        console.log('🔄 Token récupéré depuis localStorage et mis à jour dans BehaviorSubject');
+        this.tokenSubject.next(token);
+      }
+    }
+
     console.log('🔍 getToken() appelé - token disponible:', !!token);
     return token;
   }

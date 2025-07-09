@@ -54,6 +54,10 @@ export class LoginPage {
       await this.authService.login(this.email, this.password).toPromise();
       await loading.dismiss();
       this.isLoading = false;
+
+      // Initialiser le profil utilisateur après la connexion
+      this.authService.initializeUserProfile();
+
       this.showToast('Connexion réussie !', 'success');
       this.router.navigate(['/tabs']);
     } catch (error: any) {
