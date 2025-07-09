@@ -183,26 +183,38 @@ SIMPLE_JWT = {
     'SLIDING_TOKEN_REFRESH_LIFETIME': timedelta(days=1),
 }
 
-# CORS settings pour production
+# CORS settings pour production et développement
 CORS_ALLOWED_ORIGINS = [
     "http://localhost:3000",
     "http://127.0.0.1:3000",
+    "http://localhost:8100",  # Ionic serve
+    "http://127.0.0.1:8100",
 ]
 
 # En production, Railway génère automatiquement un domaine HTTPS
 if not DEBUG:
-    ALLOWED_HOSTS.append('.railway.app')
-    # CORS pour l'application mobile
+    ALLOWED_HOSTS.extend(['.railway.app', 'mycoach-production-238a.up.railway.app'])
+    # CORS pour l'application mobile en production
     CORS_ALLOWED_ORIGINS.extend([
+        "https://mycoach-production-238a.up.railway.app",
         "https://mycoach-backend.railway.app",
         "capacitor://localhost",
         "ionic://localhost",
         "http://localhost",
         "http://localhost:8080",
-        "http://localhost:8100"
+        "http://localhost:8100",
+        "https://localhost:8100",
     ])
 
+    # Configuration spécifique Railway pour les APK
+    CSRF_TRUSTED_ORIGINS.extend([
+        "https://mycoach-production-238a.up.railway.app",
+        "https://mycoach-backend.railway.app"
+    ])
+
+# En développement, accepter toutes les origines + configuration explicite
 CORS_ALLOW_ALL_ORIGINS = DEBUG
+CORS_ALLOW_CREDENTIALS = True
 
 # CSRF settings pour API REST
 CSRF_TRUSTED_ORIGINS = [

@@ -60,26 +60,55 @@ export class AuthService {
   }
 
   login(email: string, password: string): Observable<LoginResponse> {
+    console.log('🔐 Début de la connexion - URL:', `${environment.apiUrl}/auth/token/`);
+    console.log('🔐 Email:', email);
+
     return this.http.post<LoginResponse>(`${environment.apiUrl}/auth/token/`, {
       email,
       password
     }).pipe(
-      tap(response => {
-        // Stocker les tokens
-        console.log('💾 Stockage du token après login:', response.access.substring(0, 20) + '...');
-        localStorage.setItem('access_token', response.access);
-        localStorage.setItem('refresh_token', response.refresh);
-        this.tokenSubject.next(response.access);
+      tap({
+        next: (response) => {
+          // Stocker les tokens
+          console.log('✅ Connexion réussie');
+          console.log('💾 Stockage du token après login:', response.access.substring(0, 20) + '...');
+          localStorage.setItem('access_token', response.access);
+          localStorage.setItem('refresh_token', response.refresh);
+          this.tokenSubject.next(response.access);
 
-        console.log('🔄 Token mis à jour dans BehaviorSubject');
-        // Charger le profil utilisateur
-        this.loadUserProfile();
+          console.log('🔄 Token mis à jour dans BehaviorSubject');
+          // Charger le profil utilisateur
+          this.loadUserProfile();
+        },
+        error: (error) => {
+          console.error('❌ Erreur de connexion:', error);
+          console.error('❌ Status:', error.status);
+          console.error('❌ Status text:', error.statusText);
+          console.error('❌ Error details:', error.error);
+          console.error('❌ URL:', error.url);
+        }
       })
     );
   }
 
   register(userData: RegisterData): Observable<any> {
-    return this.http.post(`${environment.apiUrl}/auth/register/`, userData);
+    console.log('📤 Début de l\'inscription - URL:', `${environment.apiUrl}/auth/register/`);
+    console.log('📤 Données envoyées:', JSON.stringify(userData, null, 2));
+
+    return this.http.post(`${environment.apiUrl}/auth/register/`, userData).pipe(
+      tap({
+        next: (response) => {
+          console.log('✅ Inscription réussie - Réponse:', response);
+        },
+        error: (error) => {
+          console.error('❌ Erreur d\'inscription:', error);
+          console.error('❌ Status:', error.status);
+          console.error('❌ Status text:', error.statusText);
+          console.error('❌ Error details:', error.error);
+          console.error('❌ URL:', error.url);
+        }
+      })
+    );
   }
 
   logout(): void {
