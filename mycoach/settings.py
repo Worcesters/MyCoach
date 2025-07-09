@@ -207,7 +207,7 @@ if not DEBUG:
     ])
 
     # Configuration spécifique Railway pour les APK
-    CSRF_TRUSTED_ORIGINS.extend([
+    CORS_ALLOWED_ORIGINS.extend([
         "https://mycoach-production-238a.up.railway.app",
         "https://mycoach-backend.railway.app"
     ])
@@ -217,7 +217,7 @@ CORS_ALLOW_ALL_ORIGINS = DEBUG
 CORS_ALLOW_CREDENTIALS = True
 
 # CSRF settings pour API REST
-CSRF_TRUSTED_ORIGINS = [
+CORS_ALLOWED_ORIGINS = [
     "https://mycoach-production-238a.up.railway.app",
     "http://localhost:8100",
     "http://localhost:3000",
