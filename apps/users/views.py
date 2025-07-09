@@ -15,11 +15,21 @@ class RegisterSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = User
-        fields = ('email', 'password', 'first_name', 'last_name')
+        fields = ('email', 'password', 'first_name', 'last_name', 'weight', 'height', 'objective')
 
     def validate_email(self, value):
         if User.objects.filter(email=value).exists():
             raise serializers.ValidationError("Un utilisateur avec cet email existe déjà.")
+        return value
+
+    def validate_weight(self, value):
+        if value is not None and (value < 30 or value > 300):
+            raise serializers.ValidationError("Le poids doit être entre 30 et 300 kg.")
+        return value
+
+    def validate_height(self, value):
+        if value is not None and (value < 100 or value > 250):
+            raise serializers.ValidationError("La taille doit être entre 100 et 250 cm.")
         return value
 
     def create(self, validated_data):
@@ -28,6 +38,9 @@ class RegisterSerializer(serializers.ModelSerializer):
             email=validated_data['email'],
             first_name=validated_data['first_name'],
             last_name=validated_data['last_name'],
+            weight=validated_data.get('weight'),
+            height=validated_data.get('height'),
+            objective=validated_data.get('objective'),
             password=password
         )
         return user
@@ -57,7 +70,10 @@ def register_view(request):
                         'id': user.id,
                         'email': user.email,
                         'first_name': user.first_name,
-                        'last_name': user.last_name
+                        'last_name': user.last_name,
+                        'weight': float(user.weight) if user.weight else None,
+                        'height': user.height,
+                        'objective': user.objective
                     }
                 }, status=status.HTTP_201_CREATED)
         except Exception as e:

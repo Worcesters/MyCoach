@@ -1,101 +1,130 @@
-<ion-content [fullscreen]="true" [scrollPadding]="true">
-  <div class="register-wrapper">
-    <div class="register-container">
+<div class="register-wrapper">
+  <div class="register-container">
+    <!-- Logo et titre -->
+    <div class="header-section">
+      <div class="logo-icon">💪</div>
+      <h1>Créer un compte</h1>
+      <p>Rejoignez MyCoach aujourd'hui</p>
+    </div>
 
-      <!-- Logo et titre -->
-      <div class="header-section">
-        <div class="logo-icon">💪</div>
-        <h1>Créer un compte</h1>
-        <p>Rejoignez MyCoach aujourd'hui</p>
+    <!-- Formulaire d'inscription -->
+    <div class="form-section">
+      <div class="input-group">
+        <label for="firstName">Prénom *</label>
+        <input
+          id="firstName"
+          type="text"
+          [(ngModel)]="firstName"
+          placeholder="Votre prénom"
+          [disabled]="isLoading"
+          class="form-input">
       </div>
 
-      <!-- Formulaire -->
-      <form class="form-section" (keydown.enter)="onKeyPress($event)">
-        <div class="input-group">
-          <label for="firstName">Prénom</label>
-          <input
-            id="firstName"
-            type="text"
-            [(ngModel)]="firstName"
-            name="firstName"
-            placeholder="Votre prénom"
-            [disabled]="isLoading"
-            class="form-input"
-            autocomplete="given-name">
-        </div>
+      <div class="input-group">
+        <label for="lastName">Nom *</label>
+        <input
+          id="lastName"
+          type="text"
+          [(ngModel)]="lastName"
+          placeholder="Votre nom"
+          [disabled]="isLoading"
+          class="form-input">
+      </div>
 
-        <div class="input-group">
-          <label for="lastName">Nom</label>
-          <input
-            id="lastName"
-            type="text"
-            [(ngModel)]="lastName"
-            name="lastName"
-            placeholder="Votre nom"
-            [disabled]="isLoading"
-            class="form-input"
-            autocomplete="family-name">
-        </div>
+      <div class="input-group">
+        <label for="email">Email *</label>
+        <input
+          id="email"
+          type="email"
+          [(ngModel)]="email"
+          placeholder="votre@email.com"
+          autocomplete="email"
+          [disabled]="isLoading"
+          class="form-input">
+      </div>
 
-        <div class="input-group">
-          <label for="email">Email</label>
-          <input
-            id="email"
-            type="email"
-            [(ngModel)]="email"
-            name="email"
-            placeholder="votre@email.com"
-            [disabled]="isLoading"
-            class="form-input"
-            autocomplete="email">
-        </div>
+      <div class="input-group">
+        <label for="weight">Poids (kg) *</label>
+        <input
+          id="weight"
+          type="number"
+          [(ngModel)]="weight"
+          placeholder="70"
+          min="30"
+          max="300"
+          [disabled]="isLoading"
+          class="form-input">
+      </div>
 
-        <div class="input-group">
-          <label for="password">Mot de passe</label>
-          <input
-            id="password"
-            type="password"
-            [(ngModel)]="password"
-            name="password"
-            placeholder="••••••••"
-            [disabled]="isLoading"
-            class="form-input"
-            autocomplete="new-password">
-        </div>
+      <div class="input-group">
+        <label for="height">Taille (cm) *</label>
+        <input
+          id="height"
+          type="number"
+          [(ngModel)]="height"
+          placeholder="175"
+          min="100"
+          max="250"
+          [disabled]="isLoading"
+          class="form-input">
+      </div>
 
-        <div class="input-group">
-          <label for="confirmPassword">Confirmer le mot de passe</label>
-          <input
-            id="confirmPassword"
-            type="password"
-            [(ngModel)]="confirmPassword"
-            name="confirmPassword"
-            placeholder="••••••••"
-            [disabled]="isLoading"
-            class="form-input"
-            autocomplete="new-password">
-        </div>
+      <div class="input-group">
+        <label for="objective">Objectif *</label>
+        <select
+          id="objective"
+          [(ngModel)]="objective"
+          [disabled]="isLoading"
+          class="form-select">
+          <option value="">-- Choisir un objectif --</option>
+          <option value="muscle_gain">Prise de masse</option>
+          <option value="weight_loss">Régime / Perte de poids</option>
+          <option value="cutting">Sèche</option>
+          <option value="maintenance">Maintien / Forme</option>
+        </select>
+      </div>
 
+      <div class="input-group">
+        <label for="password">Mot de passe *</label>
+        <input
+          id="password"
+          type="password"
+          [(ngModel)]="password"
+          placeholder="••••••••"
+          autocomplete="new-password"
+          [disabled]="isLoading"
+          class="form-input">
+      </div>
+
+      <div class="input-group">
+        <label for="confirmPassword">Confirmer le mot de passe *</label>
+        <input
+          id="confirmPassword"
+          type="password"
+          [(ngModel)]="confirmPassword"
+          placeholder="••••••••"
+          autocomplete="new-password"
+          [disabled]="isLoading"
+          class="form-input">
+      </div>
+
+      <button
+        (click)="register()"
+        class="register-button"
+        [disabled]="isLoading || !isFormValid()">
+        <span *ngIf="!isLoading">✅ Créer mon compte</span>
+        <span *ngIf="isLoading">⏳ Création...</span>
+      </button>
+
+      <div class="login-section">
+        <p>Déjà un compte ?</p>
         <button
-          type="button"
-          (click)="register()"
-          class="register-button"
-          [disabled]="isLoading || !isFormValid()">
-          <span *ngIf="!isLoading">✅ Créer mon compte</span>
-          <span *ngIf="isLoading">⏳ Création...</span>
+          class="login-link"
+          (click)="goToLogin()"
+          [disabled]="isLoading">
+          Se connecter
         </button>
-
-        <div class="login-section">
-          <p>Déjà un compte ?</p>
-          <button
-            type="button"
-            class="login-link"
-            (click)="goToLogin()"
-            [disabled]="isLoading">
-            Se connecter
-          </button>
-        </div>
-      </form>
+      </div>
     </div>
   </div>
-</ion-content>
+</div>

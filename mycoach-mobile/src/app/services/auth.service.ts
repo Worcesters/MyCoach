@@ -21,6 +21,9 @@ export interface RegisterData {
   password: string;
   first_name: string;
   last_name: string;
+  weight: number;
+  height: number;
+  objective: string;
 }
 
 @Injectable({

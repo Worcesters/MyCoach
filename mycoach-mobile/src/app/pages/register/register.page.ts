@@ -16,6 +16,9 @@ export class RegisterPage {
   firstName: string = '';
   lastName: string = '';
   email: string = '';
+  weight: number | null = null;
+  height: number | null = null;
+  objective: string = '';
   password: string = '';
   confirmPassword: string = '';
   isLoading: boolean = false;
@@ -28,9 +31,11 @@ export class RegisterPage {
   ) {}
 
   async register() {
+    console.log('🔄 Tentative d\'inscription...');
+
     // Validation des champs
     if (!this.isFormValid()) {
-      this.showToast('Veuillez remplir tous les champs correctement', 'warning');
+      this.showToast('Veuillez remplir tous les champs obligatoires (*)', 'warning');
       return;
     }
 
@@ -38,6 +43,24 @@ export class RegisterPage {
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
     if (!emailRegex.test(this.email)) {
       this.showToast('Veuillez entrer un email valide', 'warning');
+      return;
+    }
+
+    // Validation poids
+    if (!this.weight || this.weight < 30 || this.weight > 300) {
+      this.showToast('Le poids doit être entre 30 et 300 kg', 'warning');
+      return;
+    }
+
+    // Validation taille
+    if (!this.height || this.height < 100 || this.height > 250) {
+      this.showToast('La taille doit être entre 100 et 250 cm', 'warning');
+      return;
+    }
+
+    // Validation objectif
+    if (!this.objective) {
+      this.showToast('Veuillez choisir un objectif', 'warning');
       return;
     }
 
@@ -65,13 +88,26 @@ export class RegisterPage {
         email: this.email,
         password: this.password,
         first_name: this.firstName,
-        last_name: this.lastName
+        last_name: this.lastName,
+        weight: this.weight,
+        height: this.height,
+        objective: this.objective
       };
+
+      console.log('📡 Envoi des données d\'inscription:', {
+        email: registerData.email,
+        first_name: registerData.first_name,
+        last_name: registerData.last_name,
+        weight: registerData.weight,
+        height: registerData.height,
+        objective: registerData.objective
+      });
 
       await this.authService.register(registerData).toPromise();
       await loading.dismiss();
       this.isLoading = false;
 
+      console.log('✅ Inscription réussie');
       this.showToast('Compte créé avec succès ! Vous pouvez maintenant vous connecter.', 'success');
 
       // Rediriger vers la page de connexion
@@ -80,7 +116,7 @@ export class RegisterPage {
     } catch (error: any) {
       await loading.dismiss();
       this.isLoading = false;
-      console.error('Erreur lors de l\'inscription:', error);
+      console.error('❌ Erreur lors de l\'inscription:', error);
 
       let errorMessage = 'Une erreur est survenue lors de la création du compte';
 
@@ -89,6 +125,10 @@ export class RegisterPage {
           errorMessage = 'Cet email est déjà utilisé';
         } else if (error.error?.password) {
           errorMessage = 'Le mot de passe ne respecte pas les critères';
+        } else if (error.error?.weight) {
+          errorMessage = 'Poids invalide';
+        } else if (error.error?.height) {
+          errorMessage = 'Taille invalide';
         } else {
           errorMessage = 'Données invalides. Vérifiez vos informations.';
         }
@@ -105,6 +145,9 @@ export class RegisterPage {
       this.firstName.trim() &&
       this.lastName.trim() &&
       this.email.trim() &&
+      this.weight &&
+      this.height &&
+      this.objective &&
       this.password &&
       this.confirmPassword
     );

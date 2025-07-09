@@ -41,7 +41,7 @@
       </ion-card-header>
 
       <ion-card-content>
-        <p>{{ workout.exercises?.length || 0 }} exercice(s)</p>
+        <p>{{ workout.exercises.length || 0 }} exercice(s)</p>
         <p *ngIf="workout.duration_minutes">
           Durée: {{ workout.duration_minutes }} minutes
         </p>
