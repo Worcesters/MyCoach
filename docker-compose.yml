@@ -1,0 +1,106 @@
+version: '3.8'
+
+services:
+  # Base de données PostgreSQL
+  postgres:
+    image: postgres:15-alpine
+    container_name: mycoach_postgres
+    environment:
+      - POSTGRES_DB=${POSTGRES_DB:-mycoach}
+      - POSTGRES_USER=${POSTGRES_USER:-mycoach_user}
+      - POSTGRES_PASSWORD=${POSTGRES_PASSWORD:-mycoach_password}
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    ports:
+      - "5432:5432"
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U ${POSTGRES_USER:-mycoach_user} -d ${POSTGRES_DB:-mycoach}"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+
+  # Redis pour Celery
+  redis:
+    image: redis:7-alpine
+    container_name: mycoach_redis
+    ports:
+      - "6379:6379"
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+
+  # Application Django
+  web:
+    build: .
+    container_name: mycoach_web
+    environment:
+      - DEBUG=${DEBUG:-False}
+      - SECRET_KEY=${SECRET_KEY:-django-insecure-change-this-in-production}
+      - DATABASE_URL=postgresql://${POSTGRES_USER:-mycoach_user}:${POSTGRES_PASSWORD:-mycoach_password}@postgres:5432/${POSTGRES_DB:-mycoach}
+      - REDIS_URL=redis://redis:6379/0
+      - DJANGO_LOG_LEVEL=${DJANGO_LOG_LEVEL:-INFO}
+    volumes:
+      - ./staticfiles:/app/staticfiles
+      - ./media:/app/media
+    ports:
+      - "8000:8000"
+    depends_on:
+      postgres:
+        condition: service_healthy
+      redis:
+        condition: service_healthy
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8000/api/core/health/"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+
+  # Worker Celery
+  celery:
+    build: .
+    container_name: mycoach_celery
+    command: celery -A mycoach worker -l info
+    environment:
+      - DEBUG=${DEBUG:-False}
+      - SECRET_KEY=${SECRET_KEY:-django-insecure-change-this-in-production}
+      - DATABASE_URL=postgresql://${POSTGRES_USER:-mycoach_user}:${POSTGRES_PASSWORD:-mycoach_password}@postgres:5432/${POSTGRES_DB:-mycoach}
+      - REDIS_URL=redis://redis:6379/0
+    volumes:
+      - ./media:/app/media
+    depends_on:
+      postgres:
+        condition: service_healthy
+      redis:
+        condition: service_healthy
+    restart: unless-stopped
+
+  # Planificateur Celery Beat
+  celery-beat:
+    build: .
+    container_name: mycoach_celery_beat
+    command: celery -A mycoach beat -l info
+    environment:
+      - DEBUG=${DEBUG:-False}
+      - SECRET_KEY=${SECRET_KEY:-django-insecure-change-this-in-production}
+      - DATABASE_URL=postgresql://${POSTGRES_USER:-mycoach_user}:${POSTGRES_PASSWORD:-mycoach_password}@postgres:5432/${POSTGRES_DB:-mycoach}
+      - REDIS_URL=redis://redis:6379/0
+    volumes:
+      - ./media:/app/media
+    depends_on:
+      postgres:
+        condition: service_healthy
+      redis:
+        condition: service_healthy
+    restart: unless-stopped
+
+volumes:
+  postgres_data:
+
+networks:
+  default:
+    name: mycoach_network
