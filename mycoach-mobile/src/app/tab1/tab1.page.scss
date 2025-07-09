@@ -1,0 +1,98 @@
+.user-info {
+  padding: 20px;
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  color: white;
+  text-align: center;
+
+  h2 {
+    margin: 0 0 10px 0;
+    font-size: 24px;
+  }
+
+  p {
+    margin: 0;
+    opacity: 0.9;
+  }
+}
+
+.loading-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 50px 20px;
+
+  ion-spinner {
+    margin-bottom: 20px;
+  }
+
+  p {
+    color: #666;
+  }
+}
+
+.workouts-container {
+  padding: 20px;
+}
+
+.workout-card {
+  margin-bottom: 20px;
+  border-radius: 15px;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+
+  ion-card-header {
+    padding-bottom: 10px;
+
+    ion-card-title {
+      font-size: 18px;
+      font-weight: bold;
+      color: #333;
+    }
+
+    ion-card-subtitle {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      color: #666;
+    }
+
+    ion-badge {
+      font-size: 12px;
+    }
+  }
+
+  ion-card-content {
+    p {
+      margin: 5px 0;
+      color: #666;
+      font-size: 14px;
+    }
+
+    ion-button {
+      margin-top: 15px;
+      --border-radius: 10px;
+    }
+  }
+}
+
+.empty-state {
+  text-align: center;
+  padding: 50px 20px;
+  color: #666;
+
+  ion-icon {
+    font-size: 80px;
+    margin-bottom: 20px;
+    opacity: 0.5;
+  }
+
+  h3 {
+    margin: 0 0 10px 0;
+    font-size: 20px;
+  }
+
+  p {
+    margin: 0;
+    font-size: 14px;
+  }
+}

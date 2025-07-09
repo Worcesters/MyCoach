@@ -1,0 +1,50 @@
+<ion-content class="login-content">
+  <div class="login-container">
+    <!-- Logo et titre -->
+    <div class="header-section">
+      <ion-icon name="fitness" class="logo-icon"></ion-icon>
+      <h1>MyCoach</h1>
+      <p>Votre coach sportif intelligent</p>
+    </div>
+
+    <!-- Formulaire de connexion -->
+    <div class="form-section">
+      <ion-item>
+        <ion-label position="floating">Email</ion-label>
+        <ion-input
+          type="email"
+          [(ngModel)]="email"
+          placeholder="votre@email.com"
+          autocomplete="email">
+        </ion-input>
+      </ion-item>
+
+      <ion-item>
+        <ion-label position="floating">Mot de passe</ion-label>
+        <ion-input
+          type="password"
+          [(ngModel)]="password"
+          placeholder="••••••••"
+          autocomplete="current-password">
+        </ion-input>
+      </ion-item>
+
+      <ion-button
+        expand="block"
+        (click)="login()"
+        class="login-button">
+        <ion-icon name="log-in" slot="start"></ion-icon>
+        Se connecter
+      </ion-button>
+
+      <div class="register-section">
+        <p>Pas encore de compte ?</p>
+        <ion-button
+          fill="clear"
+          (click)="goToRegister()">
+          Créer un compte
+        </ion-button>
+      </div>
+    </div>
+  </div>
+</ion-content>

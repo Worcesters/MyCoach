@@ -1,0 +1,66 @@
+<ion-header [translucent]="true">
+  <ion-toolbar>
+    <ion-title>Mes Entraînements</ion-title>
+    <ion-buttons slot="end">
+      <ion-button (click)="logout()">
+        <ion-icon name="log-out"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content [fullscreen]="true">
+  <!-- Pull to refresh -->
+  <ion-refresher slot="fixed" (ionRefresh)="doRefresh($event)">
+    <ion-refresher-content></ion-refresher-content>
+  </ion-refresher>
+
+  <!-- User info -->
+  <div class="user-info" *ngIf="currentUser">
+    <h2>Bonjour {{ currentUser.first_name }} !</h2>
+    <p>Prêt pour un nouvel entraînement ?</p>
+  </div>
+
+  <!-- Loading -->
+  <div class="loading-container" *ngIf="loading">
+    <ion-spinner></ion-spinner>
+    <p>Chargement des entraînements...</p>
+  </div>
+
+  <!-- Workouts list -->
+  <div class="workouts-container" *ngIf="!loading">
+    <ion-card *ngFor="let workout of workouts" class="workout-card">
+      <ion-card-header>
+        <ion-card-title>{{ workout.name }}</ion-card-title>
+        <ion-card-subtitle>
+          {{ workout.date | date:'dd/MM/yyyy' }}
+          <ion-badge [color]="workout.completed ? 'success' : 'primary'">
+            {{ workout.completed ? 'Terminé' : 'En cours' }}
+          </ion-badge>
+        </ion-card-subtitle>
+      </ion-card-header>
+
+      <ion-card-content>
+        <p>{{ workout.exercises?.length || 0 }} exercice(s)</p>
+        <p *ngIf="workout.duration_minutes">
+          Durée: {{ workout.duration_minutes }} minutes
+        </p>
+
+        <ion-button
+          expand="block"
+          (click)="startWorkout(workout)"
+          [disabled]="workout.completed">
+          <ion-icon name="play" slot="start"></ion-icon>
+          {{ workout.completed ? 'Terminé' : 'Commencer' }}
+        </ion-button>
+      </ion-card-content>
+    </ion-card>
+
+    <!-- Empty state -->
+    <div class="empty-state" *ngIf="workouts.length === 0">
+      <ion-icon name="fitness"></ion-icon>
+      <h3>Aucun entraînement</h3>
+      <p>Créez votre premier entraînement pour commencer !</p>
+    </div>
+  </div>
+</ion-content>
