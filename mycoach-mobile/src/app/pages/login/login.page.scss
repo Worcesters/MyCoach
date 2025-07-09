@@ -230,6 +230,118 @@
   }
 }
 
+// Fix spécifique pour écrans moyens/grands (Pixel 8, Samsung Galaxy, etc.)
+@media (min-width: 481px) and (max-width: 768px) {
+  .login-container {
+    padding: 24px;
+    max-width: 500px;
+    margin: 0 auto;
+  }
+
+  .form-section {
+    padding: 40px 30px;
+
+    ion-item {
+      --min-height: 60px;
+      --padding-start: 20px;
+      --padding-end: 20px;
+      --padding-top: 12px;
+      --padding-bottom: 12px;
+      margin-bottom: 24px;
+      border-radius: 14px;
+
+      ion-label {
+        font-size: 15px;
+        margin-bottom: 6px;
+
+        &.label-floating {
+          font-size: 13px;
+        }
+      }
+
+      ion-input {
+        font-size: 16px;
+        line-height: 1.5;
+
+        input {
+          font-size: 16px !important;
+          padding: 4px 0;
+        }
+      }
+    }
+
+    .login-button {
+      height: 54px;
+      margin: 40px 0 24px 0;
+      font-size: 17px;
+    }
+  }
+
+  .header-section {
+    margin-bottom: 48px;
+
+    .logo-icon {
+      font-size: 90px;
+    }
+
+    h1 {
+      font-size: 36px;
+    }
+
+    p {
+      font-size: 17px;
+    }
+  }
+}
+
+// Fix spécifique pour grands écrans (tablettes en mode portrait)
+@media (min-width: 769px) and (max-width: 1024px) {
+  .login-container {
+    padding: 40px;
+    max-width: 600px;
+    margin: 0 auto;
+  }
+
+  .form-section {
+    padding: 50px 40px;
+
+    ion-item {
+      --min-height: 64px;
+      --padding-start: 24px;
+      --padding-end: 24px;
+      margin-bottom: 28px;
+
+      ion-input {
+        font-size: 18px;
+
+        input {
+          font-size: 18px !important;
+        }
+      }
+    }
+
+    .login-button {
+      height: 58px;
+      margin: 50px 0 30px 0;
+      font-size: 18px;
+    }
+  }
+}
+
+// Fix pour écrans haute densité (OLED/Retina)
+@media (-webkit-min-device-pixel-ratio: 2),
+       (min-resolution: 192dpi),
+       (min-resolution: 2dppx) {
+  ion-item {
+    border-width: 1px; // Bordures plus fines sur écrans haute densité
+
+    ion-input input {
+      text-rendering: optimizeLegibility;
+      -webkit-font-smoothing: antialiased;
+    }
+  }
+}
+
 // Fix pour problèmes de zoom sur iOS
 @supports (-webkit-touch-callout: none) {
   ion-item ion-input input {
@@ -244,5 +356,49 @@ ion-item {
 
   &.item-interactive.item-has-focus {
     transform: translateY(-1px);
+  }
+}
+
+// Fix anti-chevauchement global
+.form-section {
+  * {
+    box-sizing: border-box;
+  }
+
+  ion-item {
+    position: relative;
+    z-index: 1;
+
+    &:not(:last-child) {
+      margin-bottom: 20px;
+    }
+  }
+}
+
+// Styles spécifiques pour Android (Pixel 8, etc.)
+@media screen and (min-device-width: 393px) and (max-device-width: 393px)
+       and (min-device-height: 852px) and (max-device-height: 852px)
+       and (-webkit-device-pixel-ratio: 2.75) {
+  // Pixel 8 spécifique
+  .login-container {
+    padding: 20px;
+  }
+
+  .form-section {
+    padding: 35px 25px;
+
+    ion-item {
+      --min-height: 58px;
+      margin-bottom: 22px;
+
+      ion-input {
+        font-size: 16px;
+
+        input {
+          font-size: 16px !important;
+          line-height: 1.4;
+        }
+      }
+    }
   }
 }
