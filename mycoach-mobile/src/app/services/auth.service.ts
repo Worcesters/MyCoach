@@ -34,9 +34,13 @@ export class AuthService {
   constructor(private http: HttpClient) {
     // Charger le token depuis le localStorage au démarrage
     const token = localStorage.getItem('access_token');
+    console.log('🔑 Initialisation AuthService - Token trouvé:', !!token);
     if (token) {
+      console.log('✅ Token chargé depuis localStorage:', token.substring(0, 20) + '...');
       this.tokenSubject.next(token);
       this.loadUserProfile();
+    } else {
+      console.log('❌ Aucun token trouvé dans localStorage');
     }
   }
 
@@ -47,10 +51,12 @@ export class AuthService {
     }).pipe(
       tap(response => {
         // Stocker les tokens
+        console.log('💾 Stockage du token après login:', response.access.substring(0, 20) + '...');
         localStorage.setItem('access_token', response.access);
         localStorage.setItem('refresh_token', response.refresh);
         this.tokenSubject.next(response.access);
 
+        console.log('🔄 Token mis à jour dans BehaviorSubject');
         // Charger le profil utilisateur
         this.loadUserProfile();
       })
@@ -91,7 +97,9 @@ export class AuthService {
   }
 
   getToken(): string | null {
-    return this.tokenSubject.value;
+    const token = this.tokenSubject.value;
+    console.log('🔍 getToken() appelé - token disponible:', !!token);
+    return token;
   }
 
   isAuthenticated(): boolean {
