@@ -35,3 +35,206 @@
 /* @import "@ionic/angular/css/palettes/dark.always.css"; */
 /* @import "@ionic/angular/css/palettes/dark.class.css"; */
 @import '@ionic/angular/css/palettes/dark.system.css';
+
+/**
+ * MyCoach - Styles globaux pour mobile
+ * -----------------------------------------------------
+ * Améliorations pour l'affichage sur appareils mobiles
+ */
+
+// Variables globales
+:root {
+  --mycoach-primary: #667eea;
+  --mycoach-secondary: #764ba2;
+  --mycoach-border-radius: 12px;
+  --mycoach-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+// Fix global pour les inputs sur mobile
+ion-input {
+  // Empêcher le zoom sur iOS
+  input {
+    font-size: 16px !important;
+    transform: translateZ(0);
+    -webkit-appearance: none;
+    appearance: none;
+  }
+
+  // Améliorer la lisibilité
+  --color: #333;
+  --placeholder-color: #999;
+}
+
+// Fix global pour les items
+ion-item {
+  // Améliorer l'apparence des bordures
+  &.item-has-focus {
+    --border-color: var(--mycoach-primary);
+  }
+
+  // Espacement cohérent
+  --padding-start: 16px;
+  --padding-end: 16px;
+  --inner-padding-end: 16px;
+}
+
+// Fix pour les labels flottants
+ion-label {
+  &.label-floating {
+    --color: var(--mycoach-primary);
+    font-weight: 500;
+  }
+}
+
+// Améliorer les boutons
+ion-button {
+  --border-radius: var(--mycoach-border-radius);
+  font-weight: 600;
+
+  &[expand="block"] {
+    margin: 0;
+    --box-shadow: var(--mycoach-shadow);
+  }
+}
+
+// Fix pour les toasts
+ion-toast {
+  --border-radius: var(--mycoach-border-radius);
+  --box-shadow: var(--mycoach-shadow);
+}
+
+// Responsive utilities
+@media (max-width: 480px) {
+  // Réduire la taille des textes pour les petits écrans
+  h1 {
+    font-size: 1.8rem !important;
+  }
+
+  h2 {
+    font-size: 1.5rem !important;
+  }
+
+  // Ajuster l'espacement pour mobile
+  .ion-padding {
+    --ion-padding: 16px;
+  }
+
+  // Améliorer l'espacement des items
+  ion-item {
+    --min-height: 48px;
+    --padding-start: 12px;
+    --padding-end: 12px;
+  }
+
+  // Réduire la taille des boutons
+  ion-button {
+    --padding-top: 8px;
+    --padding-bottom: 8px;
+  }
+}
+
+@media (max-width: 360px) {
+  // Très petits écrans
+  ion-item {
+    --min-height: 44px;
+    --padding-start: 10px;
+    --padding-end: 10px;
+  }
+
+  ion-input input {
+    font-size: 15px !important;
+  }
+
+  .ion-padding {
+    --ion-padding: 12px;
+  }
+}
+
+// Fix spécifique iOS
+@supports (-webkit-touch-callout: none) {
+  // Empêcher le zoom automatique sur les inputs
+  ion-input,
+  ion-textarea,
+  ion-searchbar {
+    input,
+    textarea {
+      font-size: 16px !important;
+      transform: translateZ(0);
+    }
+  }
+
+  // Améliorer le rendu des bordures
+  ion-item {
+    transform: translateZ(0);
+  }
+}
+
+// Améliorer la sélection de texte
+::selection {
+  background-color: rgba(102, 126, 234, 0.2);
+  color: #333;
+}
+
+// Fix pour les problèmes de focus
+ion-item.item-has-focus {
+  --highlight-color-focused: var(--mycoach-primary);
+  --border-width: 2px;
+}
+
+// Animation globale fluide
+* {
+  -webkit-tap-highlight-color: transparent;
+}
+
+// Améliorer la scrollbar sur mobile
+::-webkit-scrollbar {
+  width: 4px;
+}
+
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+::-webkit-scrollbar-thumb {
+  background: rgba(102, 126, 234, 0.3);
+  border-radius: 2px;
+}
+
+// Classes utilitaires pour l'alignement mobile
+.mobile-center {
+  text-align: center;
+}
+
+.mobile-padding {
+  padding: 16px;
+}
+
+@media (max-width: 480px) {
+  .mobile-padding {
+    padding: 12px;
+  }
+}
+
+// Fix pour les modales sur mobile
+ion-modal {
+  --border-radius: 16px 16px 0 0;
+  --box-shadow: 0 -4px 16px rgba(0, 0, 0, 0.1);
+}
+
+// Améliorer les alertes
+ion-alert {
+  --border-radius: var(--mycoach-border-radius);
+}
+
+// Style pour les champs de saisie cohérents
+.form-input {
+  margin-bottom: 16px;
+  border: 2px solid #e0e0e0;
+  border-radius: 10px;
+  transition: all 0.3s ease;
+
+  &.has-focus {
+    border-color: var(--mycoach-primary);
+    box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+  }
+}
